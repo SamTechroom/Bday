@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy 50th, Dad!</title>
+  <link href="style.css" rel="stylesheet">
+  <!-- Leaflet CSS for custom milestone map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+
+<body>
+  <div class="hero">
+    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=256&q=80"
+      alt="Dad's Photo" class="profile-pic">
+    <h1>🎉 Happy 50th, Dad! 🎉</h1>
+    <p class="subtitle">You’ve leveled up to Legend Mode.</p>
+    <blockquote class="birthday-quote">“To the world you are a dad, but to our family you are the world.”</blockquote>
+    <div class="buttons">
+      <button onclick="location.href='#timeline'">View Timeline</button>
+      <button onclick="location.href='#puzzle'">Play Puzzle</button>
+    </div>
+  </div>
+
+  <section id="timeline">
+    <h2>Life Timeline</h2>
+    <ul class="timeline">
+      <li data-label="Born in Pondicherry"><span class="dot">👶</span>
+        <div class="label"><strong>1975:</strong> Born in Pondicherry</div>
+      </li>
+      <li data-label="Graduated college"><span class="dot">🎓</span>
+        <div class="label"><strong>1997:</strong> Graduated college</div>
+      </li>
+      <li data-label="Became a dad"><span class="dot">👨‍👩‍👧</span>
+        <div class="label"><strong>2006:</strong> Became a dad</div>
+      </li>
+      <li data-label="Became my dad"><span class="dot">👨‍👧</span>
+        <div class="label"><strong>2010:</strong> Became my dad</div>
+      </li>
+      <li data-label="Turned 50!"><span class="dot">🏆</span>
+        <div class="label"><strong>2025:</strong> Turned 50!</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="puzzle">
+    <h2>The Birthday Puzzle</h2>
+    <div id="puzzle-output"></div>
+    <input type="text" id="puzzle-input" placeholder="Type your answer here">
+  </section>
+
+  <div id="confetti"></div>
+  <footer>
+    Made by Sam
+  </footer>
+
+  <script src="game.js"></script>
+</body>
+
+</html>
