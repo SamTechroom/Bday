@@ -68,30 +68,126 @@ btnRow.appendChild(restartBtn);
 
 const levels = [
   {
-    question: "Whats my name?",
-    answer: "Sam",
-    hint: "idk, it's a common name."
+    question: "What happens when u try to fix something hard to fix?",
+    options: ["Never give up and fixes it", "Gives up", "Breaks it", "Easily fixes it"],
+    answer: "Breaks it",
+
+    hint: "no way r asking for a hint"
   },
   {
-    question: "First alphabet of my name?",
-    answer: "s",
-    hint: "It's the 19th letter of the alphabet."
+    question: "When Dad sees your report card, what’s his first line?",
+    options: ["Not bad", "What happened in Math?(or wutever subject)", "Dissapointment ", "Wonderful!"],
+    answer: "What happened in Math?(or wutever subject)",
+    hint: "Think about the subject that usually gets the most attention."
   },
   {
-    question: "Second alphabet of my name?",
-    answer: "a",
-    hint: "It's the first letter of the alphabet."
+    question: "What is your favourite colour t-shirt to wear?  ",
+    options: ["green", "blue", "black", "yellow"],
+    answer: "blue",
+    hint: "idk ig u should know it"
+  },
+  {
+    question: "What do you not like abt me?",
+    options: ["Watching TV", "Not studying", "playing all the time", "Sleeping"],
+    answer: "Not studying",
+    hint: "pls pick the wrong answer"
+  },
+  {
+    question: "What do you not like about Isha?",
+    options: ["Studying", "Complains", "Lazy", "Reads too much"],
+    answer: "Lazy",
+    hint: "Think about her habits that annoy you the most."
   }
 ];
 
+const openEndedQuestions = [
+  "What's your favorite memory with me?",
+  "Did u like mummy the moment you first saw her?",
+  "What was your first thought when Isha was born?",
+  "What's the best advice Dad ever gave you?",
+  "If you had a million dollars, you’d buy:",
+  "What was your dream job as a child?",
+  "What is your proudest achievement so far?",
+  "If you could travel anywhere in the world, where would you go and why?",
+  "If you had 1 super power, what would it be? and why?hehe",
+  "Which day was the best day of your life?and also give story of y.",
+];
+
+let openEndedAnswers = [];
+let openEndedIndex = 0;
 let currentLevel = 0;
 let showingHint = false;
 
 function updatePuzzle() {
-  output.innerText = levels[currentLevel].question;
-  progress.innerText = `Question ${currentLevel + 1} of ${levels.length}`;
-  hintBtn.style.display = 'inline-block';
-  showingHint = false;
+  // Remove old options if any
+  document.querySelectorAll('.mcq-option').forEach(el => el.remove());
+  input.style.display = 'none';
+
+  if (currentLevel < levels.length) {
+    output.innerText = levels[currentLevel].question;
+    progress.innerText = `Question ${currentLevel + 1} of ${levels.length}`;
+    hintBtn.style.display = 'inline-block';
+    showingHint = false;
+    // Add MCQ options
+    levels[currentLevel].options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'mcq-option';
+      btn.innerText = opt;
+      btn.style.margin = '0.5rem';
+      btn.style.padding = '0.7rem 2rem';
+      btn.style.borderRadius = '18px';
+      btn.style.border = '2px solid #3a8dde';
+      btn.style.background = '#232526';
+      btn.style.color = '#3a8dde';
+      btn.style.fontWeight = 'bold';
+      btn.style.fontSize = '1.1rem';
+      btn.style.cursor = 'pointer';
+      btn.style.transition = 'background 0.2s, color 0.2s, border 0.2s';
+      btn.addEventListener('mouseenter', () => {
+        btn.style.background = '#3a8dde';
+        btn.style.color = '#fff';
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.background = '#232526';
+        btn.style.color = '#3a8dde';
+      });
+      btn.onclick = function () {
+        if (opt.toLowerCase() === levels[currentLevel].answer.toLowerCase()) {
+          currentLevel++;
+          if (currentLevel < levels.length) {
+            updatePuzzle();
+          } else {
+            // Switch to open-ended questions
+            openEndedIndex = 0;
+            openEndedAnswers = [];
+            showOpenEnded();
+          }
+        } else {
+          btn.style.background = '#ff5e62';
+          btn.style.color = '#fff';
+          setTimeout(() => {
+            btn.style.background = '#232526';
+            btn.style.color = '#3a8dde';
+          }, 600);
+          output.innerText += `\nWrong answer. Try again.`;
+          shakeOutput();
+        }
+      };
+      output.parentNode.insertBefore(btn, btnRow);
+    });
+  }
+}
+
+function showOpenEnded() {
+  // Remove MCQ options
+  document.querySelectorAll('.mcq-option').forEach(el => el.remove());
+  input.style.display = '';
+  input.value = '';
+  hintBtn.style.display = 'none';
+  progress.innerText = `Open-ended Q${openEndedIndex + 1} of ${openEndedQuestions.length}`;
+  output.innerText = openEndedQuestions[openEndedIndex];
+  input.placeholder = 'Type your answer here and press Enter';
+  input.focus();
 }
 
 function showHint() {
@@ -107,24 +203,60 @@ function shakeOutput() {
 }
 
 input.addEventListener("keydown", function (e) {
-  if (e.key === "Enter") {
-    const val = input.value.toLowerCase().trim();
-    if (val === levels[currentLevel].answer) {
-      currentLevel++;
-      if (currentLevel < levels.length) {
-        updatePuzzle();
+  if (input.style.display === 'none') return;
+  if (e.key === "Enter" && openEndedIndex < openEndedQuestions.length) {
+    const val = input.value.trim();
+    if (val) {
+      openEndedAnswers.push({
+        question: openEndedQuestions[openEndedIndex],
+        answer: val
+      });
+      openEndedIndex++;
+      if (openEndedIndex < openEndedQuestions.length) {
+        showOpenEnded();
       } else {
-        output.innerText = "🎉 Congrats! You finished the game.\nHere’s your surprise gift: [Insert Your Heartfelt Message or Video Link]";
+        output.innerText = "Happy 50th Birthday Daddy!!!\nHope you like this little page ive made hehe.Thank you for being such a wonderful dad to us.\nThank you for everyting you have done.\nI decided to keep this short so we love you so much!<3 and hope you have a Blast today!! u deserve it :D";
         progress.innerText = '';
-        input.style.display = "none";
-        hintBtn.style.display = 'none';
+        input.style.display = 'none';
         restartBtn.style.display = 'inline-block';
+        // --- EMAILJS INTEGRATION ---
+        // Load EmailJS CDN if not already loaded
+        if (!window.emailjs) {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js';
+          script.onload = sendEmailJS;
+          document.body.appendChild(script);
+        } else {
+          sendEmailJS();
+        }
+        function sendEmailJS() {
+          if (!window.emailjs) return;
+          // Replace these with your actual EmailJS credentials
+          const EMAILJS_PUBLIC_KEY = '6vNVFM8W93XpGqWm5';
+          const EMAILJS_SERVICE_ID = 'service_ert9mew';
+          const EMAILJS_TEMPLATE_ID = 'template_omlebxf';
+          if (
+            EMAILJS_PUBLIC_KEY.startsWith('YOUR_') ||
+            EMAILJS_SERVICE_ID.startsWith('YOUR_') ||
+            EMAILJS_TEMPLATE_ID.startsWith('YOUR_')
+          ) {
+            output.innerText += "\n(EmailJS not configured. Please set your public key, service ID, and template ID in game.js.)";
+            return;
+          }
+          window.emailjs.init(EMAILJS_PUBLIC_KEY);
+          window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            answers: openEndedAnswers.map((a, i) => `${i + 1}. ${a.question}\n${a.answer}`).join('\n\n'),
+            reply_to: 'samxavivs@gmail.com', // or your email
+          }).then(function () {
+            output.innerText += "\n(Answers sent to Sam successfully!)";
+          }, function (err) {
+            output.innerText += "\n(Email failed to send. Please try again or check configuration.)";
+          });
+        }
+        // --- END EMAILJS ---
       }
-    } else {
-      output.innerText += `\nWrong answer. Try again.`;
-      shakeOutput();
     }
-    input.value = "";
+    input.value = '';
   }
 });
 
