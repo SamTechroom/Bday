@@ -72,7 +72,10 @@ const levels = [
     options: ["Never give up and fixes it", "Gives up", "Breaks it", "Easily fixes it"],
     answer: "Breaks it",
 
+
     hint: "no way you r asking for a hint"
+
+
   },
   {
     question: "When Dad sees your report card, what’s his first line?",
@@ -104,7 +107,7 @@ const openEndedQuestions = [
   "What's your favorite memory with me?",
   "Did u like mummy the moment you first saw her?",
   "What was your first thought when Isha was born?",
-  "What's the best advice Dad ever gave you?",
+  "What's the best advice your Dad ever gave you?",
   "If you had a million dollars, you’d buy:",
   "What was your dream job as a child?",
   "What is your proudest achievement so far?",
