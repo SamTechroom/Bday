@@ -72,7 +72,7 @@ const levels = [
     options: ["Never give up and fixes it", "Gives up", "Breaks it", "Easily fixes it"],
     answer: "Breaks it",
 
-    hint: "no way r asking for a hint"
+    hint: "no way you r asking for a hint"
   },
   {
     question: "When Dad sees your report card, what’s his first line?",
